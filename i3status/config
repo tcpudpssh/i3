@@ -1,0 +1,137 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
+# It is important that this file is edited as UTF-8.
+# The following line should contain a sharp s:
+# ß
+# If the above line is not correctly displayed, fix your editor first!
+
+general {
+        colors = true
+        interval = 1 
+}
+
+#order += "ipv6"
+order += "wireless _first_"
+#order += "path_exists VPN"
+order += "ethernet _first_"
+order += "battery all"
+order += "memory"
+#order += "cpu_usage"
+order += "cpu_temperature 0"
+order += "volume master"
+order += "disk /home"
+#order += "disk /path"
+#order += "disk /"
+order += "load"
+order += "tztime local"
+
+
+########################################################
+
+
+
+
+
+
+
+# CPU temperature
+cpu_temperature 0 {
+    format = " %degrees°C"
+
+    # the upper temperature threshold, upon reaching which the output will turn red, the format will change to format_above_threshold
+    max_threshold = "80"
+    format_above_threshold = " %degrees"
+    path = "/sys/class/thermal/thermal_zone0/temp"
+}
+
+
+
+# CPU usage
+cpu_usage {
+    # %usage - percentage CPU usage
+    # %cpu<N> - starting from %cpu0 onwards shows core usage
+    format = "  %usage"
+
+    # available options:
+    # degraded_threshold, yellow, default color 90
+    # max_threshold, color red, default 95
+    # format_above_degraded_threshold и format_above_threshold
+}
+
+# volume control
+volume master {
+    format = "  %volume" #active state
+    format_muted = "  %volume" #muted
+    device = "default"
+    mixer = "Master"
+    mixer_idx = 0
+}
+
+# wifi control
+#wireless _first_ {
+#        format_up = " %quality" #%frequency %ip %bitrate %essid  
+#        format_down = " "
+#}
+
+
+# ethernet
+#ethernet _first_ {
+#        format_up = " " #%ip   %speed 
+#        format_down = " "
+#}
+
+
+##################################################
+# battery status
+#battery all {
+#        format = "%status %percentage %remaining" 
+#}
+##################################################
+
+battery all {
+        format = "%status %percentage %remaining %emptytime"
+        format_down = "No battery"
+        status_chr = ":"
+        status_bat = " :"
+        status_full = " :"
+        low_threshold = 20 
+        threshold_type = time 
+        integer_battery_capacity = true
+        last_full_capacity = true
+        path = "/sys/class/power_supply/BAT%d/uevent"
+}
+##################################################
+
+
+# battery status
+disk "/path" {
+        format = "  %avail"
+}
+
+disk "/" {
+        format = "  %avail"
+}
+
+disk "/home" {
+        format = "  %avail"
+}
+
+
+# average system load 1.5 and 15 minutes
+#load {
+#        format = " %1min "
+#}
+
+
+# RAM status
+memory {
+        format = " %used   %available"
+        threshold_degraded = "1G"
+        format_degraded = "MEMORY < %available"
+}
+
+# date and time display 
+tztime local {
+        format = " %d-%m-%y   %H:%M"
+
